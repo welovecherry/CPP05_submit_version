@@ -4,6 +4,9 @@
 #include <string>
 #include <iostream>
 #include <stdexcept>
+//#include "Form.hpp" // 전방선언 하면 이 부분은 삭제되야함
+
+class Form;
 
 class Bureaucrat
 {
@@ -19,7 +22,7 @@ class Bureaucrat
 
 		void incrementGrade();
 		void decrementGrade();
-
+		void signForm(Form &form) const;
 };
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &bureaucrat);

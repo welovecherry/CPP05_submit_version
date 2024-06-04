@@ -1,4 +1,5 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 Bureaucrat::Bureaucrat(const std::string &name, int grade) : name(name) {
   if (grade < 1) {
@@ -34,4 +35,16 @@ void Bureaucrat::decrementGrade() {
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &bureaucrat) {
   os << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade() << ".";
   return os;
+}
+
+// TODO: undestand the function
+
+void Bureaucrat::signForm(Form &form) const {
+  try {
+    form.beSigned(*this); // explain why this is not a pointer
+    // this is not a pointer because the function beSigned takes a reference to a Bureaucrat object
+    std::cout << this->getName() << " signs " << form.getName() << std::endl;
+  } catch (std::exception &e) {
+    std::cout << this->getName() << " cannot sign " << form.getName() << " because " << e.what() << std::endl;
+  }
 }
