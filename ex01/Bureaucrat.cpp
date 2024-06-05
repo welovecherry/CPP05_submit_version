@@ -37,14 +37,11 @@ std::ostream &operator<<(std::ostream &os, const Bureaucrat &bureaucrat) {
   return os;
 }
 
-// TODO: undestand the function
-
 void Bureaucrat::signForm(Form &form) const {
   try {
-    form.beSigned(*this); // explain why this is not a pointer
-    // this is not a pointer because the function beSigned takes a reference to a Bureaucrat object
-    std::cout << this->getName() << " signs " << form.getName() << std::endl;
+    form.beSigned(*this);
+    std::cout << "✅" << name << " signs " << form.getName() << std::endl;
   } catch (std::exception &e) {
-    std::cout << this->getName() << " cannot sign " << form.getName() << " because " << e.what() << std::endl;
+    std::cout << "❌" << name << " cannot sign " << form.getName() << " because " << e.what() << std::endl;
   }
 }
