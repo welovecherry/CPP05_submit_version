@@ -5,32 +5,24 @@ int main()
 {
 	try
 	{
-		Bureaucrat bob("Bob", 51);
-		Form taxForm("Tax Form", 50, 100);
+		Bureaucrat bob("Bob", 4);
+		Bureaucrat alice("Alice", 2);
+		Form taxForm("Tax Form", 5, 3);
+		Form secretForm("Secret Form", 3, 1);
 
-		// print bob and taxForm
 		std::cout << bob << std::endl;
-		std::cout << taxForm << std::endl;
-		std::cout << std::endl;
-		
-		// bob signs taxForm and fails
-		bob.signForm(taxForm);
-		std::cout << taxForm << std::endl;
+		std::cout << alice << std::endl;
+
+		bob.signForm(taxForm); // success
+		alice.signForm(taxForm); // success
 		std::cout << std::endl;
 
-		// increment bob's grade and sign taxForm
-		bob.incrementGrade();
-		bob.signForm(taxForm);
-		std::cout << taxForm << std::endl;
-		std::cout << std::endl;
-
-		// TODO:  높은 등급의 Bureaucrat 생성 및 서명 시도 (성공할 것)
-
-
+		bob.signForm(secretForm); // fail
+		alice.signForm(secretForm); // success
 	}
 	catch (std::exception &e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 	return 0;
 }
