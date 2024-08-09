@@ -1,30 +1,44 @@
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-#include <string>
-#include <iostream>
-#include <stdexcept>
-//#include "Form.hpp" // 전방선언 하면 이 부분은 삭제되야함
+# include <iostream>
+# include <string>
+# include <exception>
 
 class Form;
 
-class Bureaucrat
-{
-	private:
-		const std::string name;
-		int grade;
+class Bureaucrat {
+private:
+    const std::string name;
+    int grade;
 
-	public:
-		Bureaucrat(const std::string &name, int grade);
-	
-		std::string getName() const;
-		int getGrade() const;
+public:
+    Bureaucrat();
+    Bureaucrat(const std::string &name, int grade);
+    Bureaucrat(const Bureaucrat& other);
+    Bureaucrat& operator=(const Bureaucrat& other);
+    ~Bureaucrat();
 
-		void incrementGrade();
-		void decrementGrade();
-		void signForm(Form &form) const;
-};
+    const std::string &getName() const;
+    int getGrade() const;
 
-std::ostream &operator<<(std::ostream &os, const Bureaucrat &bureaucrat);
+    void incrementGrade();
+    void decrementGrade();
+
+    class GradeTooHighException : public std::exception {
+    public:
+        const char* what() const throw();
+    };
+
+    class GradeTooLowException : public std::exception {    
+    public:
+        const char* what() const throw();
+    };
+
+    // signForm() member function
+    void signForm(class Form& form);
+};  
+
+std::ostream& operator<<(std::ostream& os, const Bureaucrat& bureaucrat);
 
 #endif

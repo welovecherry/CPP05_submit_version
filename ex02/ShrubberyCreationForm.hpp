@@ -1,5 +1,32 @@
-/* ShrubberyCreationForm: 서명에 필요한 등급: 145, 실행에 필요한 등급: 137
 
-작업 디렉토리에 <target>_shrubbery 파일을 생성하고, 그 안에 ASCII 트리를 씁니다.
-이들 모두 생성자에서 하나의 매개변수(양식의 대상)를 받습니다. 
-*/
+#ifndef SHRUBBERYCREATIONFORM_HPP
+# define SHRUBBERYCREATIONFORM_HPP
+
+#include "AForm.hpp"
+#include <string>
+
+class ShrubberyCreationForm : public AForm {
+private:
+    const std::string target;
+    static const int signGrade = 145;
+    static const int execGrade = 137;
+
+public:
+    ShrubberyCreationForm(const std::string &target);
+    ShrubberyCreationForm(const ShrubberyCreationForm& other);
+    ShrubberyCreationForm& operator=(const ShrubberyCreationForm& other);
+    virtual ~ShrubberyCreationForm();
+
+    virtual void execute(const Bureaucrat& executor) const;
+
+    std::string getTarget() const;
+
+    // 예외 클래스
+    class FileOpenException : public std::exception {
+        public:
+            virtual const char* what() const throw();
+    };
+};
+
+
+#endif

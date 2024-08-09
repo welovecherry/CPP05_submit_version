@@ -1,31 +1,47 @@
 #ifndef FORM_HPP
-#define FORM_HPP
+# define FORM_HPP
 
 #include <string>
 #include <iostream>
-#include <stdexcept>
+#include <exception>
 
 class Bureaucrat;
 
-class Form
-{
-	private:
-		const std::string name; // 양식의 이름
-		bool isSigned; // 서명 여부
-		const int gradeToSign; // 서명을 위한 최소 등급
-		const int gradeToExecute; // 실행을 위한 최소 등급
+class Form {
+private:
+    const std::string name;
+    bool isSigned;
+    const int gradeToSign;
+    const int gradeToExecute;
+    
+public:
+    Form(const std::string &name, int gradeToSign, int gradeToExecute);
+    Form(const Form& other);
+    Form& operator=(const Form& other);
+    ~Form();
 
-	public:
-		Form(const std::string &name, int gradeToSign, int gradeToExecute);
+    // 예외 클래스
+    class GradeTooHighException : public std::exception {
+    public:
+        virtual const char* what() const throw();
+    };
 
-		std::string getName() const;
-		bool getIsSigned() const;
-		int getGradeToSign() const;
-		int getGradeToExecute() const;
-		void beSigned(const Bureaucrat &bureaucrat);
+    class GradeTooLowException : public std::exception {
+    public:
+        virtual const char* what() const throw();
+    };
+
+    // 게터 매서드
+    const std::string &getName() const;
+    bool getIsSigned() const;
+    int getGradeToSign() const;
+    int getGradeToExecute() const;
+
+    // beSigned() member function(pdf)
+    void beSigned(const Bureaucrat& bureaucrat);
+
 };
-
-std::ostream &operator<<(std::ostream &os, const Form &form);
-
+// 연산자 오버로딩
+std::ostream& operator<<(std::ostream& os, const Form& form);
 
 #endif

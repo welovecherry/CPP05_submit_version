@@ -1,28 +1,24 @@
 #include "Bureaucrat.hpp"
 #include "Form.hpp"
+#include <iostream>
 
 int main()
 {
-	try
-	{
-		Bureaucrat bob("Bob", 4);
-		Bureaucrat alice("Alice", 2);
-		Form taxForm("Tax Form", 5, 3);
-		Form secretForm("Secret Form", 3, 1);
+    try {
+        Bureaucrat highRank("High rank", 1);
+        Bureaucrat lowRank("Low rank", 150);
 
-		std::cout << bob << std::endl;
-		std::cout << alice << std::endl;
+        Form form("Important form", 1, 50);
+        std::cout << form << std::endl;
 
-		bob.signForm(taxForm); // success
-		alice.signForm(taxForm); // success
-		std::cout << std::endl;
+        highRank.signForm(form);
+        lowRank.signForm(form);
 
-		bob.signForm(secretForm); // fail
-		alice.signForm(secretForm); // success
-	}
-	catch (std::exception &e)
-	{
-		std::cerr << "Exception: " << e.what() << std::endl;
-	}
-	return 0;
-}
+        highRank.decrementGrade();
+        highRank.signForm(form);
+
+    } catch (std::exception &e) {
+        std::cout << e.what() << std::endl;
+    }
+    return 0;
+}   

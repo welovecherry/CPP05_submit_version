@@ -1,47 +1,72 @@
 #include "Form.hpp"
 #include "Bureaucrat.hpp"
+#include <iostream>
 
-// Form constructor
-Form::Form(const std::string &name, int gradeToSign, int gradeToExecute) : name(name), isSigned(false), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute)
-{
-	if (gradeToSign < 1 || gradeToExecute < 1) {
-		throw std::out_of_range("Grade is too high");
-	}
-	if (gradeToSign > 150 || gradeToExecute > 150) {
-		throw std::out_of_range("Grade is too low");
-	}
+// constructor
+Form::Form(const std::string &name, int gradeToSign, int gradeToExecute)
+    : name(name), isSigned(false), gradeToSign(gradeToSign), gradeToExecute(gradeToExecute) {
+    if (gradeToSign < 1 || gradeToExecute < 1)
+        throw Form::GradeTooHighException();
+    if (gradeToSign > 150 || gradeToExecute > 150)
+        throw Form::GradeTooLowException();
 }
 
-std::string Form::getName() const
-{
-	return name;
+// copy constructor
+Form::Form(const Form& other)
+    : name(other.name), isSigned(other.isSigned), 
+    gradeToSign(other.gradeToSign), 
+    gradeToExecute(other.gradeToExecute) {}
+
+// assignment operator
+Form& Form::operator=(const Form& other) {
+    if (this == &other)
+        return *this;
+    isSigned = other.isSigned;
+    return *this;
 }
 
-bool Form::getIsSigned() const
-{
-	return isSigned;
+// destructor
+Form::~Form() {}
+
+// exception classes
+const char* Form::GradeTooHighException::what() const throw() {
+    return "Grade is too high";
 }
 
-int Form::getGradeToSign() const
-{
-	return gradeToSign;
+const char* Form::GradeTooLowException::what() const throw() {
+    return "Grade is too low";
 }
 
-int Form::getGradeToExecute() const
-{
-	return gradeToExecute;
+// getter methods
+const std::string &Form::getName() const {
+    return name;
 }
 
-void Form::beSigned(const Bureaucrat &bureaucrat)
-{
-	if (bureaucrat.getGrade() > gradeToSign) {
-		throw std::out_of_range("grade is too low!");
-	}
-	isSigned = true;
+bool Form::getIsSigned() const {
+    return isSigned;
 }
+
+int Form::getGradeToSign() const {
+    return gradeToSign;
+}
+
+int Form::getGradeToExecute() const {
+    return gradeToExecute;
+}
+
+// beSigned() :공무원 등급이 충분히 높으면 Form 객체의 상태를 '서명된' 상태로 변경한다.
+void Form::beSigned(const Bureaucrat &bureaucrat) {
+    if (bureaucrat.getGrade() <= gradeToSign)
+        isSigned = true;
+    else
+        throw Form::GradeTooLowException();
+}
+
+// << operator overloading
 std::ostream& operator<<(std::ostream& os, const Form& form) {
-	os	<< "📄" << form.getName() << ", form status: " << (form.getIsSigned() ? "✅signed" : "❌not signed")
-		<< ", grade required to sign: " << form.getGradeToSign()
-		<< ", grade required to execute: " << form.getGradeToExecute();
-	return os;
+    os << "Form name: " << form.getName() << std::endl;
+    os << "Is signed: " << form.getIsSigned() << std::endl;
+    os << "Grade to sign: " << form.getGradeToSign() << std::endl;
+    os << "Grade to execute: " << form.getGradeToExecute() << std::endl;
+    return os;
 }

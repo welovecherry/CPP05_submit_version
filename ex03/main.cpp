@@ -4,8 +4,15 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
+
+void leaks() {
+    system("leaks ex03");
+}
 
 int main() {
+    atexit(leaks);
+
     try {
         Bureaucrat bob("Bob", 1);
         Bureaucrat alice("Alice", 150);
@@ -16,11 +23,11 @@ int main() {
         ShrubberyCreationForm form("home");
         std::cout << "Form created for target: " << form.getTarget() << std::endl;
         { 
-        form.beSigned(bob);
-        std::cout << "Form signed by " << bob.getName() << std::endl;
+        // form.beSigned(bob);
+        // std::cout << "Form signed by " << bob.getName() << std::endl;
 
-        form.execute(bob);
-        std::cout << "Form executed by " << bob.getName() << std::endl;
+        // form.execute(bob);
+        // std::cout << "Form executed by " << bob.getName() << std::endl;
         }
         form.execute(alice);
         std::cout << "Form executed by " << alice.getName() << std::endl;
@@ -80,6 +87,27 @@ int main() {
         std::cerr << e.what() << std::endl;
     }
     catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    std::cout << "======================================" << std::endl;
+
+    try {
+        Bureaucrat bob4("Bob4", 1);
+        std::cout << bob4 << std::endl;
+
+        Intern intern;
+        std::string formNames[] = {"shrubbery creation", "robotomy request", "presidential pardon", "unknown form"};
+        std::string targets[] = {"Home", "Robot", "Alice", "Unknown"};
+
+        for (int i = 0; i < 4; i++) {
+            AForm *form = intern.makeForm(formNames[i], targets[i]);
+            if (form) {
+                form->beSigned(bob4);
+                form->execute(bob4);
+                delete form;
+            }
+        }
+    } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
 

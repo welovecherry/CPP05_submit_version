@@ -6,10 +6,11 @@ Bureaucrat.cpp \
 AForm.cpp \
 PresidentialPardonForm.cpp \
 RobotomyRequestForm.cpp \
-ShrubberyCreationForm.cpp
+ShrubberyCreationForm.cpp \
+Intern.cpp
 
 OBJS = $(SRC:.cpp=.o)
-NAME = ex02
+NAME = ex03
 
 all: $(NAME)
 

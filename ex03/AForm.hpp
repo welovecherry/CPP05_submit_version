@@ -30,7 +30,6 @@ public:
         virtual const char* what() const throw();
     };
 
-    // 추가된 예외 클래스
     class FormNotSignedException : public std::exception {
     public:
         virtual const char* what() const throw();
@@ -43,12 +42,9 @@ public:
 
     void beSigned(const Bureaucrat& bureaucrat);
 
-    void checkExecution(const Bureaucrat& executor) const;
-
-    // execute member function(ex02 추가)
     virtual void execute(const Bureaucrat& executor) const = 0;
-};
 
+};
 std::ostream& operator<<(std::ostream& os, const AForm& aform);
 
 #endif
