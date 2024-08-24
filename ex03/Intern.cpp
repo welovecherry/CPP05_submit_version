@@ -10,9 +10,12 @@ const std::string Intern::formNames[Intern::numForms] = {
     "presidential pardon"
 };
 
+
 // 폼 생성 함수 포인터 배열 초기화
+// formCreators: 함수포인터의 배열
+// 각 원소는 특정 종류의 양식을 생성하는 함수를 가리킵니다.
 const Intern::FormCreator Intern::formCreators[Intern::numForms] = {
-    &Intern::createShrubberyCreationForm,
+    &Intern::createShrubberyCreationForm, // Shrubbery Creation 양식을 만드는 함수의 주소
     &Intern::createRobotomyRequestForm,
     &Intern::createPresidentialPardonForm
 };
